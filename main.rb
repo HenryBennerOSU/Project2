@@ -1,0 +1,3 @@
+require 'DateTime'
+
+Tk.mainloop
