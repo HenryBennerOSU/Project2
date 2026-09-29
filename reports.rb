@@ -43,7 +43,12 @@ class  Report
 		post_info = []
 		@user_manager.all_users.each do |user|
 			user.posts.each do |post|
-				post_info << [post.postId, post.title, post.createdAt, post.updatedAt, post.attachments.size]
+				filelist = ""
+				post.attachments.each do |attachment|
+					filelist += attachment.fileName
+					filelist += "\n"
+				end
+				post_info << [post.postId, post.title, post.createdAt, post.updatedAt, filelist, post.attachments.size]
 			end
 		end
 		post_info

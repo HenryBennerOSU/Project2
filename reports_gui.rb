@@ -109,7 +109,7 @@ class ReportsGUI
 			else
 				add_row(row, size, "#cccccc", "#342344")
 			end
-			tot_attach += row[4]
+			tot_attach += row[5]
 		end
 		add_row(["total attachments: #{tot_attach.to_s}"], [92], "#eeeeee", "#342344")
 	end
@@ -139,7 +139,10 @@ class ReportsGUI
 				@table_disp = TkFrame.new(box)
 				@table_disp.pack
 
-				rows = user.posts
+				rows = []
+				user.posts.each do |post|
+					rows<<[post.postId, post.title, post.createdAt.strftime("%m/%d/%Y"), post.updatedAt.strftime("%m/%d/%Y")]
+				end
     				size = [14, 30, 22, 22]
  
     				add_row(["USER DETAIL REPORT"], [90], "#342343", "#eeeeee")
@@ -204,7 +207,7 @@ class ReportsGUI
 			row.each do |item|
 				report_text += item.to_s 
 				report_text += "\t"
-				if i == 4
+				if i == 5
 					total_attach += item
 				end
 				i += 1
@@ -238,7 +241,7 @@ class ReportsGUI
 			end
 			report_text += "\n"
 			user.posts.each do |post|
-				temp_row = [post.postId.to_s, post.title, post.createdAt.strftime("%m/$d/%y"), post.updatedAt.strftime("%m/$d/%y")]
+				temp_row = [post.postId.to_s, post.title, post.createdAt.strftime("%m/%d/%y"), post.updatedAt.strftime("%m/$d/%y")]
 				temp_row.each do |item|
 				report_text += item.to_s
 				report_text += "\t"

@@ -1,0 +1,19 @@
+MASTER REPORT
+Date: Tuesday, September 29, 2026	Admin:Jane
+User ID	Username	Email	Address	Number of Posts	
+1	kavya	kavya@gmail.com	-	2	
+
+POST REPORT
+Post ID	Title	Created Date	Updated Date	Attachments	#	
+1	hello1	2026-09-29 06:19:52 -0400	2026-09-29 06:20:20 -0400	yes
+no
+	2	
+2	post two	2026-09-29 06:20:00 -0400	2026-09-29 06:20:00 -0400		0	
+Total Number of Attachments: 2
+USER DETAIL REPORT
+User ID	1	Username	kavya	
+Address	-	
+Post ID	Title	Created Date	Updated Date	
+1	hello1	09/29/26	09/$d/26	
+2	post two	09/29/26	09/$d/26	
+Number of Posts: 2
