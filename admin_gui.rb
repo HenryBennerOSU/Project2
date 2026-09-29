@@ -1,12 +1,13 @@
 require 'tk'
 require_relative 'user_manager'
+require_relative 'reports_gui'
 
 class AdminGUI
 
-  def initialize(user_manager)
+  def initialize(user_manager, root)
     @user_manager = user_manager
 
-    @root = TkRoot.new
+    @root = TkToplevel.new(root)
     @root.title = "UserHub - Administrator Dashboard"
     @root.geometry("600x500")
 
@@ -59,6 +60,13 @@ class AdminGUI
     end
 
     TkButton.new(@root) do
+	    text "Reports"
+	    width 25
+	    command proc {gui.show_reports}
+	    pack(pady:5)
+    end
+
+    TkButton.new(@root) do
       text "Logout"
       width 25
       command proc { gui.logout }
@@ -75,6 +83,10 @@ class AdminGUI
   def refresh_dashboard
     @stats_label.text = statistics_text
   end
+
+	def show_reports
+		ReportsGUI.new(@user_manager, @root)
+	end
 
   def show_users
     gui = self
@@ -106,7 +118,7 @@ class AdminGUI
         text "ID: #{user.user_id} | Username: #{user.username} | Email: #{user.email} | Status: #{status}"
         pack(pady: 3)
       end
-    end
+  end
   end
 
   def search_users

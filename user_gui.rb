@@ -1,11 +1,15 @@
-gem 'tk', '0.5.1'
+#gem 'tk', '0.5.1'
 require 'tk'
 require_relative 'user'
 require_relative 'address'
+require_relative 'post_gui'
+require_relative "user_manager"
 
 class UserGUI
-  def initialize
-    @user = nil
+	attr_accessor :root
+  def initialize(user_manager)
+	  @user = nil
+	  @user_manager = user_manager
 
     @root = TkRoot.new do
       title "UserHub"
@@ -23,6 +27,7 @@ class UserGUI
     address_action = proc { address_window }
     logout_action = proc { logout_user }
     delete_action = proc { delete_user }
+    posts_action = proc { posts_window }
 
     TkButton.new(@root) do
       text "Register"
@@ -33,6 +38,12 @@ class UserGUI
     TkButton.new(@root) do
       text "Login"
       command login_action
+      pack
+    end
+
+    TkButton.new(@root) do
+      text "Post"
+      command posts_action
       pack
     end
 
@@ -111,6 +122,9 @@ class UserGUI
         puts "Account created."
         puts "User ID: #{@user.user_id}"
         puts "Username: #{@user.username}"
+	
+	#also adds new user to user management array of users
+	@user_manager.add_user(new_user)
 
         window.destroy
       else
@@ -320,4 +334,22 @@ class UserGUI
   end
 end
 
-UserGUI.new.run
+def posts_window
+  if @user.nil?
+    puts "Create an account first."
+    return
+  end
+
+  unless @user.logged_in?
+    puts "Login first."
+    return
+  end
+
+  window = TkToplevel.new(@root)
+  window.title = "Posts"
+  window.geometry("500x400")
+
+  PostGUI.new(window, @user)
+end
+
+#UserGUI.new.run

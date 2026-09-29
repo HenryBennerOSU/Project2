@@ -144,7 +144,7 @@ class PostGUI
       #if there isn't a post, puts all the postId's into an array, find the highest one if there are posts, and then just adds 1
       newId = (@user.posts.map(&:postId).max || 0) + 1
       #appends it into the user.posts array
-      @user.posts << Post.new(newId, @user.userId, title, content)
+      @user.posts << Post.new(newId, @user.user_id, title, content)
     end
     #refresh the post list so it actually shows the changes!
     refreshPostList

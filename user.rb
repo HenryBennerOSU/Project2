@@ -1,6 +1,7 @@
 require 'openssl'
 require 'securerandom'
 require_relative 'address'
+#require_relative 'user_manager'
 
 class User
   @@next_user_id = 1

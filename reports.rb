@@ -1,39 +1,49 @@
 require "date"
-require_relative "UserManager"
+require_relative "user_manager"
 
-module Report
-	#text version to export to txt file
-	report_text = ""
+class  Report
+
+	def initialize(user_manager)
+		@user_manager = user_manager
+	end
+	
+	def today 
+		Date.today.strftime("%A, %B %-d, %Y")
+	end
 
 	def master_info
-		report_text = "MASTER REPORT\n"
 		#array of arrays that contain info abt each user
-		m_info = [["User ID", "Username", "Email", "Address", "Number of Posts"]]
-		User.get_all_users.each do |user|
-			m_info<<[user.user_id, user.username, user.email, user.address, user.posts.size]
+		m_info = []
+		@user_manager.all_users.each do |user|
+			if user.address.nil?
+				address = "-"
+			else
+				address = user.address.get_full_address
+			end
+			m_info<<[user.user_id, user.username, user.email, address, user.posts.size]
 		end
 		m_info
 	end
 
 	def user_detail(uid)
-		user = User.get_user(uid)
+		user = @user_manager.find_by_id(uid)
 		
 		info_array = []
 
 		#userid, username, email, address (street, city, state)
-		user_info = [user.user_id, user.username, user.email, user.address]
+		user_info = [user.user_id, user.username, user.email, address]
 		info_array<<user_info
 		user.posts.each do |post|
-			info_array<<[post_id, title, created_at, updated_at]
+			info_array<<[post.postId, post.title, post.createdAt, post.updatedAt]
 		end
 		info_array
 	end
 
 	def post_report
 		post_info = []
-		User.gte_all_users.each do |user|
+		@user_manager.all_users.each do |user|
 			user.posts.each do |post|
-				post_info << [post.post_id, post.title, post.created_at, post.updated_at, po# ATTACHMENTS #ATTACHMENT NUMBER]
+				post_info << [post.postId, post.title, post.createdAt, post.updatedAt, post.attachments.size]
 			end
 		end
 		post_info
