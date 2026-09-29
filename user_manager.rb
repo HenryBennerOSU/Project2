@@ -2,7 +2,6 @@ class UserManager
 
   def initialize
     @users = {}
-    @deleted_users = 0
   end
 
   def add_user(user)
@@ -11,6 +10,14 @@ class UserManager
 
   def all_users
     @users.values
+  end
+
+  def active_users
+    @users.values.reject(&:deleted?)
+  end
+
+  def deleted_users
+    @users.values.select(&:deleted?)
   end
 
   def find_by_id(user_id)
@@ -30,9 +37,10 @@ class UserManager
   end
 
   def delete_user(user_id)
-    if @users.key?(user_id)
-      @users.delete(user_id)
-      @deleted_users += 1
+    user = @users[user_id]
+
+    if user && !user.deleted?
+      user.delete_account
       true
     else
       false
@@ -43,8 +51,12 @@ class UserManager
     @users.length
   end
 
+  def total_active_users
+    active_users.length
+  end
+
   def total_deleted_users
-    @deleted_users
+    deleted_users.length
   end
 
 end
